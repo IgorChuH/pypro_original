@@ -1,4 +1,13 @@
-def mask_account_card(account_card):
+def mask_account_card(account_card: str) -> str:
+    """
+        Маскирует номер банковской карты, заменяя часть цифр на символы '*'.
+
+        Параметры:
+        account_card (str): Строка, содержащая название карты и номер счёта.
+
+        Возвращает:
+        str: Имя карты с замаскированным номером счёта.
+        """
     name_card = []
     number_card = []
 
@@ -13,15 +22,10 @@ def mask_account_card(account_card):
     third_part = "*" * 4
     last_part = number_card[12:16]
 
-    masked_name = ''.join(name_card)
-    masked_number = ' '.join([
-        ''.join(first_part),
-        ''.join(second_part),
-        third_part,
-        ''.join(last_part)
-    ])
+    masked_name = "".join(name_card)
+    masked_number = " ".join(["".join(first_part), "".join(second_part), third_part, "".join(last_part)])
 
-    return masked_name + ' ' + masked_number
+    return masked_name + " " + masked_number
 
 
 result = mask_account_card("Visa Platinum 7000792289606361")
