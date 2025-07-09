@@ -22,8 +22,6 @@ isort = "^6.0.1"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[flake8]
-max-line-length = 119
 
 
 [tool.mypy]
