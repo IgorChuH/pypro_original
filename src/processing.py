@@ -19,7 +19,7 @@ def filter_by_state(list_of_dict: list, state="EXECUTED") -> list:
     return filtered_list
 
 
-def sort_by_date(list_of_dict: list, reverse=False) -> list:
+def sort_by_date(list_of_dict: list, reverse=True) -> list:
     """
     Сортирует список словарей по дате.
 
@@ -35,3 +35,4 @@ def sort_by_date(list_of_dict: list, reverse=False) -> list:
         key=lambda x: datetime.strptime(x["date"], "%Y-%m-%dT%H:%M:%S.%f"),
         reverse=reverse,
     )
+
