@@ -25,6 +25,8 @@ def mask_account_card(account_card: str) -> str:
         last_part = number_card[12:16]
 
         masked_name = "".join(name_card)
-        masked_number = " ".join(["".join(first_part), "".join(second_part), third_part, "".join(last_part)])
+        masked_number = " ".join(
+            ["".join(first_part), "".join(second_part), third_part, "".join(last_part)]
+        )
 
         return masked_name + " " + masked_number
