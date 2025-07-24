@@ -30,9 +30,12 @@ def sort_by_date(list_of_dict: list, reverse=True) -> list:
     Возвращает:
     list: Отсортированный список словарей.
     """
-    return sorted(
-        list_of_dict,
-        key=lambda x: datetime.strptime(x["date"], "%Y-%m-%dT%H:%M:%S.%f"),
-        reverse=reverse,
-    )
+    try:
+        return sorted(
+            list_of_dict,
+            key=lambda x: datetime.strptime(x["date"], "%Y-%m-%dT%H:%M:%S.%f"),
+            reverse=reverse,
+        )
+    except (KeyError, ValueError):
+        return 0
 
