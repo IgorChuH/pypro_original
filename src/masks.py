@@ -8,6 +8,7 @@ def get_mask_card_number(card_number):
     else:
         return 0
 
+
 def get_mask_account(account_number):
     if account_number.isdigit():
         last_part = account_number[-4:]

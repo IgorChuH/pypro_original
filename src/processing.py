@@ -38,4 +38,3 @@ def sort_by_date(list_of_dict: list, reverse=True) -> list:
         )
     except (KeyError, ValueError):
         return 0
-
