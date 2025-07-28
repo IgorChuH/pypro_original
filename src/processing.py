@@ -13,13 +13,13 @@ def filter_by_state(list_of_dict: list, state="EXECUTED") -> list:
     list: Список словарей с указанным состоянием.
     """
     filtered_list = []
-    for dict in list_of_dict:
-        if dict.get("state") == state:
-            filtered_list.append(dict)
+    for dir in list_of_dict:
+        if dir.get("state") == state:
+            filtered_list.append(dir)
     return filtered_list
 
 
-def sort_by_date(list_of_dict: list, reverse=True) -> list:
+def sort_by_date(list_of_dict: list, reverse=True):
     """
     Сортирует список словарей по дате.
 

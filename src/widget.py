@@ -9,7 +9,7 @@ def mask_account_card(account_card: str) -> str:
     number_card = []
 
     if account_card == "":
-        return 0
+        return "Неподходящий формат для ввода."
     else:
         for i in account_card:
             if i == " " or i.isalpha():
