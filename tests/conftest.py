@@ -147,6 +147,4 @@ def transactions():
     ]
 
 
-@pytest.fixture
-def descriptions():
-    return
+

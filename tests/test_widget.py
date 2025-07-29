@@ -6,7 +6,7 @@ from src.widget import get_date, mask_account_card
 def test_mask_account_card(account_card):
     assert mask_account_card("Visa Platinum 7000792289606361") == account_card
 
-    assert mask_account_card("") == 0
+    assert mask_account_card("") == "Неподходящий формат для ввода."
 
 
 def test_get_date(date):
