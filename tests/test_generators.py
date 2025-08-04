@@ -1,10 +1,7 @@
 import pytest
 
-from src.generators import (
-    filter_by_currency,
-    transaction_descriptions,
-    card_number_generator,
-)
+from src.generators import (card_number_generator, filter_by_currency,
+                            transaction_descriptions)
 
 
 def test_filter_by_currency(transactions, ex_transactions):
@@ -64,7 +61,6 @@ def test_filter_by_currency(transactions, ex_transactions):
     assert (next(empty_dict)) == 0
 
 
-
 def test_transaction_descriptions(transactions):
     usd_description = transaction_descriptions(transactions)
     empty_dict = transaction_descriptions([])
@@ -82,14 +78,20 @@ def test_card_number_generator():
         print(card_number)
 
 
-@pytest.mark.parametrize("transactions, expected", [
-    ([], [0]),  # Пустой список транзакций
-    ([{"description": "Оплата за услуги"}, {"description": "Перевод денег"}],
-     ["Оплата за услуги", "Перевод денег"]),  # Список с двумя транзакциями
-    ([{"description": "Покупка"}, {"description": "Возврат"}],
-     ["Покупка", "Возврат"]),  # Список с транзакциями
-])
-
+@pytest.mark.parametrize(
+    "transactions, expected",
+    [
+        ([], [0]),  # Пустой список транзакций
+        (
+            [{"description": "Оплата за услуги"}, {"description": "Перевод денег"}],
+            ["Оплата за услуги", "Перевод денег"],
+        ),  # Список с двумя транзакциями
+        (
+            [{"description": "Покупка"}, {"description": "Возврат"}],
+            ["Покупка", "Возврат"],
+        ),  # Список с транзакциями
+    ],
+)
 def test_par_transaction_descriptions(transactions, expected):
     result = list(transaction_descriptions(transactions))
     assert result == expected
