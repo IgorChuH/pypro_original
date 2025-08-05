@@ -1,8 +1,11 @@
 import os
 
-import pytest
-
 from src.decorators import my_function
+
+
+def test_function():
+    assert my_function(1, 2) == 3
+    os.remove("mylog.txt")
 
 
 def test_my_function_console_output(capsys):

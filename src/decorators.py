@@ -2,8 +2,27 @@ import time
 
 
 def log(filename=None):
+    """
+    Декоратор для логирования времени выполнения функции и её результата.
+
+    :param filename: Имя файла для записи логов. Если None, выводит в консоль.
+    """
+
     def my_decorator(func):
+        """
+        Декоратор для обёртки функции, добавляющий логирование.
+
+        :param func: Функция, которую нужно обернуть.
+        """
+
         def wrapper(*args, **kwargs):
+            """
+            Обертывающая функция, которая записывает логи.
+
+            :param args: Позиционные аргументы функции.
+            :param kwargs: Именованные аргументы функции.
+            :return: Результат выполнения оригинальной функции.
+            """
             try:
                 time_1 = time.time()
                 result = func(*args, **kwargs)
@@ -19,6 +38,7 @@ def log(filename=None):
                     print(
                         f"Начало: {time_1} \nФункция {name_func} ок. Результат: {result}\nКонец: {time_2}"
                     )
+                return result
             except Exception as e:
                 name_func = func.__name__
                 if filename:
@@ -28,6 +48,7 @@ def log(filename=None):
                     return f"{name_func} error: {e}. Inputs: {args}, {kwargs}"
                 else:
                     print(f"{name_func} error: {e}. Inputs: {args}, {kwargs}")
+                raise
 
         return wrapper
 
