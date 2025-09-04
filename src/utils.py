@@ -1,15 +1,31 @@
 import json
+import logging
+
+logger = logging.getLogger("transaction")
+logger.setLevel(logging.DEBUG)
+file_handler = logging.FileHandler(
+    "C:\\Users\\ZIPHAI\\Decstop\\Testwork\\logs\\utils.log", mode="w", encoding="utf-8"
+)
+file_formatter = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
 
 
 def input_transaction(filename: str):
     """Функция возвращает список словарей с данными о финансовых транзакциях
     из json-файла."""
     try:
+        logger.info("Записываем данные в файл.")
         with open(filename, "r", encoding="utf-8") as f:
             return json.load(f)
     except json.JSONDecodeError:
+        logger.info("Строка или поток не соответствует синтаксису JSON")
+        logging.critical("Ошибка! Файл не найден.")
         return []
     except FileNotFoundError:
+        logging.critical("Ошибка! Файл не найден.")
         return []
 
 
