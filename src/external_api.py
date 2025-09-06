@@ -10,7 +10,8 @@ API_KEY = os.getenv("API_KEY")
 
 # url = os.getenv("url")
 def convert_transactions(filename: list):
-    """Принимает список транзакций и возвращает список сумм в рублях, приводя валюты USD и EUR к RUB через внешний API."""
+    """Принимает список транзакций и возвращает список сумм в рублях,
+     приводя валюты USD и EUR к RUB через внешний API."""
     try:
         result = []
         for i in filename:
