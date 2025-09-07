@@ -12,7 +12,7 @@ git clone https://github.com/IgorChuH/pypro_original.git
 ```
 2. Установите зависимости:
 ```
-pip install -r requirements.txt
+-pip install -r requirements.txt
 
 ## Инструкция:
 
@@ -21,6 +21,7 @@ pip install -r requirements.txt
 3.Для фильтрации даты введите словарь с данными.
 4 Для сортировки введите список словарей.
 5.Если вы хотите воспользоваться функцией filter_by_currency (для фильтрации транзакций по валюте) или transaction_descriptions (для вывода описания транзакции), то воспользуйтесь набором транзайций в модуле conftest.py под название transactions. 
+6.Чтобы использоать новые функции установите все зависимости из requirements.txt, далее воспользуйтесь новым модулем и базами данных (src/data_count.py, transactions.csv, transactions_excel.xlsx), чтобы считать финансовые транзакции.
 
 ## Документация:
 
@@ -30,7 +31,7 @@ pip install -r requirements.txt
 
 Тестирование было совершенно с помощью фреймворкера Pytest. Установить его можно с помощью команды:
 
-pip install pytest
+-pip install pytest
 
 или же с помощью конфигуратора.
 

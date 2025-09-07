@@ -7,15 +7,12 @@ def csv_data(path_file):
     """Функция, принимающая путь до csv-файла, считывает его и
         возвращающая список словарей с данными о
         финансовых транзакциях"""
-    result = []
     with open(path_file, encoding="utf-8") as file:
         reader = csv.reader(file, delimiter=";")
         for row in reader:
-            result.append(row)
-        return result
+            print(row)
 
-
-# print(csv_data("C:\\Users\\ZIPHAI\\Decstop\\Testwork\\data\\transactions.csv"))
+csv_data("C:\\Users\\ZIPHAI\\Decstop\\Testwork\\data\\transactions.csv")
 
 
 def pd_data(path_file):
