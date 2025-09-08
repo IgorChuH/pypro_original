@@ -1,35 +1,25 @@
-from io import StringIO
+import io
 from unittest.mock import mock_open, patch
 
 import pandas as pd
 
 from src.data_count import csv_data, pd_data, pd_ex_data
 
+CSV_CONTENT = (
+    "date;description;amount\n" "2021-01-01;Salary;1000\n" "2021-01-02;Coffee;-3.5\n"
+)
 
-def test_csv_data_reads_rows_using_csv_reader():
-    # Подготовим содержимое "файла" с разделителем ;
-    fake_file_content = "a;b;c\n1;2;3\nx;y;z\n"
-    m_open = mock_open(read_data=fake_file_content)
-    # Однако mock_open не всегда корректно работает с csv.reader (он ожидает итерируемый объект),
-    # поэтому можно сделать так: patch builtins.open, возвращая StringIO напрямую
-    with patch("builtins.open", return_value=StringIO(fake_file_content), create=True):
-        with patch("csv.reader") as mock_csv_reader:
-            # Настроим csv.reader так, чтобы он возвращал списки строк, как если бы правильно парсил
-            mock_csv_reader.return_value = [
-                ["a", "b", "c"],
-                ["1", "2", "3"],
-                ["x", "y", "z"],
-            ]
 
-            result = csv_data("dummy_path.csv")
+def test_csv_data():
+    mock_file = io.StringIO(CSV_CONTENT)
+    with patch("src.data_count.open", return_value=mock_file):
+        result = csv_data("dummy_path.csv")
 
-            # Проверки
-            mock_csv_reader.assert_called_once()  # csv.reader был вызван
-            assert result == [
-                ["a", "b", "c"],
-                ["1", "2", "3"],
-                ["x", "y", "z"],
-            ]
+    expected = [
+        {"date": "2021-01-01", "description": "Salary", "amount": "1000"},
+        {"date": "2021-01-02", "description": "Coffee", "amount": "-3.5"},
+    ]
+    assert result == expected
 
 
 def test_pd_data_calls_read_csv_and_returns_head():
