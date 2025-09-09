@@ -18,18 +18,19 @@ def csv_data(path_file):
     return rows
 
 
-print(csv_data("C:\\Users\\ZIPHAI\\Decstop\\Testwork\\data\\transactions.csv"))
+#print(csv_data("C:\\Users\\ZIPHAI\\Decstop\\Testwork\\data\\transactions.csv"))
+
 
 
 def pd_data(path_file):
-    """Функция, принимающая путь до csv-файла с помощью pandas, считывает его и
-    возвращающая список словарей с данными о
-    финансовых транзакциях"""
-    result_read_csv = pd.read_csv(path_file, sep=";")
-    return result_read_csv.head()
+    """Функция принимает путь до csv-файла, считывает его и возвращает список словарей с данными о финансовых транзакциях"""
+    # при необходимости задайте encoding, sep, parse_dates и т.д.
+    df = pd.read_csv(path_file, sep=';', encoding='utf-8')
+    # преобразуем DataFrame в список словарей
+    records = df.to_dict(orient='records')
+    return records
 
-
-# print(pd_data("C:\\Users\\ZIPHAI\\Decstop\\Testwork\\data\\transactions.csv"))
+print(pd_data("C:\\Users\\ZIPHAI\\Decstop\\Testwork\\data\\transactions.csv"))
 
 
 def pd_ex_data(path_file):
