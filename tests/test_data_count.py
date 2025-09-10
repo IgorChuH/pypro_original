@@ -22,23 +22,23 @@ def test_csv_data():
     assert result == expected
 
 
-def test_pd_data_calls_read_csv_and_returns_head():
+@patch('pandas.read_csv')
+def test_pd_data_success(mock_read_csv):
     # Подготовим фиктивный DataFrame
-    df = pd.DataFrame(
-        {"col1": [1, 2, 3, 4, 5, 6], "col2": ["a", "b", "c", "d", "e", "f"]}
-    )
+    df_mock = pd.DataFrame([
+        {'date': '2021-01-01', 'amount': 100, 'category': 'food'},
+        {'date': '2021-01-02', 'amount': 200, 'category': 'rent'},
+    ])
+    # Настроим mock возвращать наш DataFrame
+    mock_read_csv.return_value = df_mock
 
-    # Подменяем pd.read_csv, чтобы он возвращал наш DataFrame
-    with patch("pandas.read_csv", return_value=df) as mock_read:
-        result = pd_data("pandas.read_csv")
+    # Вызов функции
+    result = pd_data('dummy_path.csv')
 
-        # Проверяем, что pd.read_csv был вызван с нужными аргументами
-        mock_read.assert_called_once_with("pandas.read_csv", sep=";")
-
-        # Ожидаем, что функция вернула head() того DataFrame (по умолчанию 5 строк)
-        expected = df.head()
-        # Сравниваем содержимое: можно сравнить с помощью pandas.testing
-        pd.testing.assert_frame_equal(result, expected)
+    # Проверки
+    mock_read_csv.assert_called_once_with('dummy_path.csv', sep=';', encoding='utf-8')
+    expected = df_mock.to_dict(orient='records')
+    assert result == expected
 
 
 def test_pd_ex_data_calls_read_excel_and_returns_head():
