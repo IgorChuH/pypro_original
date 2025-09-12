@@ -3,15 +3,18 @@ import os
 
 import pandas as pd
 
+current_dir = os.path.dirname(__file__)
+file_csv = os.path.join(current_dir, '..', 'data', 'transactions.csv')
+current_dir = os.path.dirname(__file__)
+file_ex = os.path.join(current_dir, '..', 'data', 'transactions_excel.xlsx')
 
-def csv_data(__file__):
+def csv_data(path_file):
     """Функция, принимающая путь до csv-файла, считывает его и
     возвращающая список словарей с данными о
     финансовых транзакциях"""
     rows = []
-    current_dir = os.path.dirname(__file__)
-    file = os.path.join(current_dir, "..", "data", "transactions.csv")
-    with open(file, encoding="utf-8", newline="") as res_file:
+    path = os.path.normpath(os.path.abspath(path_file))
+    with open(path, encoding="utf-8", newline="") as res_file:
         reader = csv.DictReader(res_file, delimiter=";")
         for row in reader:
             # Если нужно — можно преобразовать типы полей здесь, например:
@@ -20,32 +23,28 @@ def csv_data(__file__):
             rows.append(dict(row))
     return rows
 
+print(csv_data(file_csv))
 
-# print(csv_data("C:\\Users\\ZIPHAI\\Decstop\\Testwork\\data\\transactions.csv"))
 
 
-def pd_data(__file__):
+def pd_data(path_file):
     """Функция принимает путь до csv-файла, считывает его и возвращает список словарей с данными о финансовых транзакциях"""
-    current_dir = os.path.dirname(__file__)
-    file = os.path.join(current_dir, "..", "data", "transactions.csv")
     # при необходимости задайте encoding, sep, parse_dates и т.д.
-    df = pd.read_csv(file, sep=";", encoding="utf-8")
+    df = pd.read_csv(path_file, sep=";", encoding="utf-8")
     # преобразуем DataFrame в список словарей
     records = df.to_dict(orient="records")
     return records
 
 
-print(pd_data("transactions.csv"))
+print(pd_data(file_csv))
 
 
-def pd_ex_data(__file__):
+def pd_ex_data(path_file):
     """Функция, принимающая путь до Excel-файла с помощью pandas, считывает его и
     возвращающая список словарей с данными о
     финансовых транзакциях"""
-    current_dir = os.path.dirname(__file__)
-    file = os.path.join(current_dir, "..", "data", "transactions_excel.xlsx")
-    result_read_csv = pd.read_excel(file)
+    result_read_csv = pd.read_excel(path_file)
     return result_read_csv.head()
 
 
-print(pd_ex_data("transactions_excel.xlsx"))
+print(pd_ex_data(file_ex))

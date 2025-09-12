@@ -79,4 +79,4 @@ def test_pd_ex_data(mock_read_excel):
     assert os.path.normpath(called_path), os.path.normpath(expected_path)
 
     # pdexdata возвращает head() DataFrame — сверяем с ожидаемым
-    assert result, df.head()
+    assert result.equals(df.head())
