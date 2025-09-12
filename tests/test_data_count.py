@@ -1,5 +1,6 @@
 import io
-from unittest.mock import mock_open, patch
+import os
+from unittest.mock import patch
 
 import pandas as pd
 
@@ -22,38 +23,60 @@ def test_csv_data():
     assert result == expected
 
 
-@patch('pandas.read_csv')
-def test_pd_data_success(mock_read_csv):
-    # Подготовим фиктивный DataFrame
-    df_mock = pd.DataFrame([
-        {'date': '2021-01-01', 'amount': 100, 'category': 'food'},
-        {'date': '2021-01-02', 'amount': 200, 'category': 'rent'},
-    ])
-    # Настроим mock возвращать наш DataFrame
-    mock_read_csv.return_value = df_mock
-
-    # Вызов функции
-    result = pd_data('dummy_path.csv')
-
-    # Проверки
-    mock_read_csv.assert_called_once_with('dummy_path.csv', sep=';', encoding='utf-8')
-    expected = df_mock.to_dict(orient='records')
-    assert result == expected
-
-
-def test_pd_ex_data_calls_read_excel_and_returns_head():
-    # Подготовим реальный DataFrame
+@patch("pandas.read_csv")
+def test_pd_data(mock_read_csv):
+    # Подготовка мок-DataFrame
     df = pd.DataFrame(
-        {"col1": [1, 2, 3, 4, 5, 6], "col2": ["a", "b", "c", "d", "e", "f"]}
+        data=[
+            {"date": "2025-01-01", "amount": 100, "currency": "USD"},
+            {"date": "2025-01-02", "amount": 200, "currency": "EUR"},
+        ]
     )
+    mock_read_csv.return_value = df
 
-    # Патчим pandas.read_excel в пространстве имён модуля, где используется pd
-    with patch("pandas.read_excel", return_value=df) as mock_read:
-        result = pd_ex_data("dummy_path.xlsx")
+    fakefile = os.path.join("some", "path", "module.py")
+    result = pd_data(fakefile)
 
-        # Проверяем вызов read_excel без указания sep
-        mock_read.assert_called_once_with("dummy_path.xlsx")
+    # Проверяем вызов pd.readcsv
+    mock_read_csv.assert_called_once()
+    called_path = mock_read_csv.call_args[0][0]
+    expected_path = os.path.join(
+        os.path.dirname(fakefile), "..", "data", "transactions.csv"
+    )
+    assert os.path.normpath(called_path), os.path.normpath(expected_path)
 
-        # Ожидаем, что функция вернула head() (по умолчанию 5 строк)
-        expected = df.head()
-        pd.testing.assert_frame_equal(result, expected)
+    # Проверяем переданные параметры
+    kwargs = mock_read_csv.call_args[1]
+    assert kwargs.get("sep"), ";"
+    assert kwargs.get("encoding"), "utf-8"
+
+    # Проверяем результат функции
+    assert result, df.to_dict(orient="records")
+
+
+@patch("pandas.read_excel")
+def test_pd_ex_data(mock_read_excel):
+    # Подготовка мок-DataFrame с более 3 строками
+    df = pd.DataFrame(
+        data=[
+            {"date": "2025-01-01", "amount": 100},
+            {"date": "2025-01-02", "amount": 200},
+            {"date": "2025-01-03", "amount": 300},
+            {"date": "2025-01-04", "amount": 400},
+        ]
+    )
+    mock_read_excel.return_value = df
+
+    fakefile = os.path.join("some", "path", "module.py")
+    result = pd_ex_data(fakefile)
+
+    # Проверяем вызов pd.readexcel
+    mock_read_excel.assert_called_once()
+    called_path = mock_read_excel.call_args[0][0]
+    expected_path = os.path.join(
+        os.path.dirname(fakefile), "..", "data", "transactions_excel.xlsx"
+    )
+    assert os.path.normpath(called_path), os.path.normpath(expected_path)
+
+    # pdexdata возвращает head() DataFrame — сверяем с ожидаемым
+    assert result.equals(df.head())
