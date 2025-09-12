@@ -3,12 +3,10 @@ import logging
 import os
 
 current_dir = os.path.dirname(__file__)
-file = os.path.join(current_dir, '..', 'logs', 'utils.log')
+file = os.path.join(current_dir, "..", "logs", "utils.log")
 logger = logging.getLogger("transaction")
 logger.setLevel(logging.DEBUG)
-file_handler = logging.FileHandler(
-    file, mode="w", encoding="utf-8"
-)
+file_handler = logging.FileHandler(file, mode="w", encoding="utf-8")
 file_formatter = logging.Formatter(
     "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )

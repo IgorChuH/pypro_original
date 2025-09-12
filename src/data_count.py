@@ -4,9 +4,9 @@ import os
 import pandas as pd
 
 current_dir = os.path.dirname(__file__)
-file_csv = os.path.join(current_dir, '..', 'data', 'transactions.csv')
-current_dir = os.path.dirname(__file__)
-file_ex = os.path.join(current_dir, '..', 'data', 'transactions_excel.xlsx')
+file_csv = os.path.join(current_dir, "..", "data", "transactions.csv")
+file_ex = os.path.join(current_dir, "..", "data", "transactions_excel.xlsx")
+
 
 def csv_data(path_file):
     """Функция, принимающая путь до csv-файла, считывает его и
@@ -23,8 +23,8 @@ def csv_data(path_file):
             rows.append(dict(row))
     return rows
 
-print(csv_data(file_csv))
 
+print(csv_data(file_csv))
 
 
 def pd_data(path_file):

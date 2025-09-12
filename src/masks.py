@@ -2,12 +2,10 @@ import logging
 import os
 
 current_dir = os.path.dirname(__file__)
-file = os.path.join(current_dir, '..', 'logs', 'mask.log')
+file = os.path.join(current_dir, "..", "logs", "mask.log")
 logger = logging.getLogger("mask")
 logger.setLevel(logging.DEBUG)
-file_handler = logging.FileHandler(
-    file, mode="w", encoding="utf-8"
-)
+file_handler = logging.FileHandler(file, mode="w", encoding="utf-8")
 file_formatter = logging.Formatter(
     "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
