@@ -24,11 +24,12 @@ def csv_data(path_file):
     return rows
 
 
-#print(csv_data(file_csv))
+# print(csv_data(file_csv))
 
 
 def pd_data(path_file):
-    """Функция принимает путь до csv-файла, считывает его и возвращает список словарей с данными о финансовых транзакциях"""
+    """Функция принимает путь до csv-файла,
+    считывает его и возвращает список словарей с данными о финансовых транзакциях"""
     # при необходимости задайте encoding, sep, parse_dates и т.д.
     df = pd.read_csv(path_file, sep=";", encoding="utf-8")
     # преобразуем DataFrame в список словарей
@@ -36,7 +37,7 @@ def pd_data(path_file):
     return records
 
 
-#print(pd_data(file_csv))
+# print(pd_data(file_csv))
 
 
 def pd_ex_data(path_file):
@@ -47,4 +48,4 @@ def pd_ex_data(path_file):
     return result_read_csv.head()
 
 
-#print(pd_ex_data(file_ex))
+# print(pd_ex_data(file_ex))

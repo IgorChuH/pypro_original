@@ -1,5 +1,7 @@
 import unittest
+
 from src.search import process_bank_search
+
 
 class TestProcessBankSearch(unittest.TestCase):
 
@@ -10,13 +12,15 @@ class TestProcessBankSearch(unittest.TestCase):
             {"description": "Оплата услуг"},
             {"description": "Пополнение счета"},
             {"description": None},
-            {}
+            {},
         ]
 
     def test_search_found(self):
         result = process_bank_search(self.data, "оплата")
         self.assertEqual(len(result), 2)
-        self.assertTrue(all("оплата" in d.get("description", "").lower() for d in result))
+        self.assertTrue(
+            all("оплата" in d.get("description", "").lower() for d in result)
+        )
 
     def test_search_case_insensitive(self):
         result = process_bank_search(self.data, "ПеРеВоД")
@@ -35,6 +39,7 @@ class TestProcessBankSearch(unittest.TestCase):
     def test_empty_data(self):
         result = process_bank_search([], "оплата")
         self.assertEqual(result, [])
+
 
 if __name__ == "__main__":
     unittest.main()

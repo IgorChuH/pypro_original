@@ -1,4 +1,3 @@
-
 def print_output(data: list[dict]) -> None:
     """
     Выводит список банковских операций в формате:

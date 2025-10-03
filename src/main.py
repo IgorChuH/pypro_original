@@ -1,11 +1,10 @@
-import os
 import json
-from src.data_count import pd_ex_data, pd_data
-from src.processing import filter_by_state
-from src.processing import sort_by_date
-from src.external_api import convert_transactions
-from src.search import process_bank_search
+import os
 
+from src.data_count import pd_data, pd_ex_data
+from src.external_api import convert_transactions
+from src.processing import filter_by_state, sort_by_date
+from src.search import process_bank_search
 
 current_dir = os.path.dirname(__file__)
 json_file_path = os.path.join(current_dir, "..", "data", "operations.json")
@@ -14,11 +13,15 @@ xlsx_file_path = os.path.join(current_dir, "..", "data", "transactions_excel.xls
 
 
 def main():
-    user_input = int(input("""Привет! Добро пожаловать в программу работы с банковскими транзакциями.\n
+    user_input = int(
+        input(
+            """Привет! Добро пожаловать в программу работы с банковскими транзакциями.\n
                         Выберите необходимый пункт меню:\n
                         1. Получить информацию о транзакциях из JSON-файла\n
                         2. Получить информацию о транзакциях из CSV-файла\n
-                        3. Получить информацию о транзакциях из XLSX-файла\n"""))
+                        3. Получить информацию о транзакциях из XLSX-файла\n"""
+        )
+    )
     if user_input in [1, 2, 3]:
         if user_input == 1:
             print("Для обработки выбран JSON-файл")
@@ -34,13 +37,15 @@ def main():
         filtered_data = []
         while True:
             input_status = input(
-                "Введите статус, по которому необходимо выполнить фильтрацию. \nДоступные для фильтровки статусы: EXECUTED, CANCELED, PENDING\n").upper()
+                """Введите статус, по которому необходимо выполнить фильтрацию.\n
+                Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING\n"""
+            ).upper()
             if input_status in ["EXECUTED", "CANCELED", "PENDING"]:
                 print(f"Операции отфильтрованы по статусу {input_status}\n")
                 filtered_data = filter_by_state(data_file, input_status)
                 break  # выход из цикла
             else:
-                print(f"Статус операции \"{input_status}\" недоступен\n")
+                print(f'Статус операции "{input_status}" недоступен\n')
                 continue  # продолжить цикл для повторного ввода
         sort_answer = input("Отсортировать операции по дате? Да/Нет\n").lower()
         sorted_data = filtered_data
@@ -55,7 +60,9 @@ def main():
             rub_res = convert_transactions(sorted_data)
         else:
             rub_res = sorted_data
-        word_ans = input("Отфильтровать список транзакций по определенному слову в описании? Да/Нет\n").lower()
+        word_ans = input(
+            "Отфильтровать список транзакций по определенному слову в описании? Да/Нет\n"
+        ).lower()
         if word_ans == "да":
             word = input("Слово: ")
             result = process_bank_search(rub_res, word)
@@ -77,7 +84,9 @@ def main():
                     to_ = item["to"]
                 if "operationAmount" in item:
                     amount = item["operationAmount"].get("amount", "")
-                    currency = item["operationAmount"].get("currency", {}).get("name", "")
+                    currency = (
+                        item["operationAmount"].get("currency", {}).get("name", "")
+                    )
 
                 # Форматируем вывод для счетов/карт
                 # Если from и to есть, то выводим строку "from -> to"
@@ -116,7 +125,9 @@ def main():
                     to_ = item["to"]
                 if "operationAmount" in item:
                     amount = item["operationAmount"].get("amount", "")
-                    currency = item["operationAmount"].get("currency", {}).get("name", "")
+                    currency = (
+                        item["operationAmount"].get("currency", {}).get("name", "")
+                    )
 
                 # Форматируем вывод для счетов/карт
                 # Если from и to есть, то выводим строку "from -> to"
@@ -137,10 +148,9 @@ def main():
 
                 print()
 
-
-
-
     else:
         print("Введите номер желаемой операции.\n")
+
+
 if __name__ == "__main__":
     main()
