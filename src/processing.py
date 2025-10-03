@@ -13,19 +13,19 @@ def filter_by_state(list_of_dict: list, state="EXECUTED") -> list:
     list: Список словарей с указанным состоянием.
     """
     filtered_list = []
-    for dir in list_of_dict:
-        if dir.get("state") == state:
-            filtered_list.append(dir)
+    for directory in list_of_dict:
+        if directory.get("state") == state:
+            filtered_list.append(directory)
     return filtered_list
 
 
-def sort_by_date(list_of_dict: list, reverse=True):
+def sort_by_date(list_of_dict: list, reverse=False):
     """
     Сортирует список словарей по дате.
 
     Параметры:
     list_of_dict (list): Список словарей для сортировки.
-    reverse (bool): Если True, сортировка по убыванию (по умолчанию False).
+    reverse (bool): Если True, сортировка по убыванию (по умолчанию True).
 
     Возвращает:
     list: Отсортированный список словарей.

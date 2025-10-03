@@ -4,12 +4,14 @@ import os
 import requests
 from dotenv import load_dotenv
 
+current_dir = os.path.dirname(__file__)
+file = os.path.join(current_dir, "..", "data", "operations.json")
+
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
 
-# url = os.getenv("url")
-def convert_transactions(filename: list):
+def convert_transactions(filename: list[dict]):
     """Принимает список транзакций и возвращает список сумм в рублях,
     приводя валюты USD и EUR к RUB через внешний API."""
     try:
@@ -55,6 +57,6 @@ def convert_transactions(filename: list):
 
 if __name__ == "__main__":
 
-    with open("data/operations.json", "r", encoding="utf-8") as file:
+    with open(file, "r", encoding="utf-8") as file:
         data = json.load(file)
     print(convert_transactions(data))
